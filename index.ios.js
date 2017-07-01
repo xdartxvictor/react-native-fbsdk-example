@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 const FBSDK = require('react-native-fbsdk')
 const {
+  AccessToken,
   LoginButton
 } = FBSDK
 
@@ -36,15 +37,19 @@ export default class FacebookSDKLogin extends Component {
           onLoginFinished={
             (error, result) => {
               if (error) {
-                alert("Login failed with error: " + result.error)
+                alert("login has error: " + result.error);
               } else if (result.isCancelled) {
-                alert("Login was cancelled")
+                alert("login is cancelled.");
               } else {
-                alert("Login was successful with permissions: " + result.grantedPermissions)
+                AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    alert(data.accessToken.toString())
+                  }
+                )
               }
             }
           }
-          onLogoutFinished={() => alert("User logged out")}/>
+          onLogoutFinished={() => alert("logout.")}/>
       </View>
     );
   }
